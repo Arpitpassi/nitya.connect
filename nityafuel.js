@@ -32,7 +32,13 @@ async function main() {
     console.error(`ERROR: Config file not found at ${configPath}`);
     process.exit(2);
   }
-  const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+  let config;
+  try {
+    config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+  } catch (error) {
+    console.error(`ERROR: Failed to parse config file: ${error.message}`);
+    process.exit(3);
+  }
   const { walletAddress, eventPoolId } = config;
 
   // Validate config
@@ -46,7 +52,13 @@ async function main() {
     console.error(`ERROR: Wallet file not found at ${walletPath}`);
     process.exit(4);
   }
-  const wallet = JSON.parse(fs.readFileSync(walletPath, 'utf-8'));
+  let wallet;
+  try {
+    wallet = JSON.parse(fs.readFileSync(walletPath, 'utf-8'));
+  } catch (error) {
+    console.error(`ERROR: Failed to parse wallet file: ${error.message}`);
+    process.exit(4);
+  }
 
   // Sign event pool ID
   let signedData;
@@ -74,17 +86,23 @@ async function main() {
 
     const result = await response.json();
     if (!response.ok) {
-      console.error('ERROR:', result);
+      console.error(`ERROR: Failed to share credits: ${result.error || 'Unknown error'}`);
       process.exit(6);
     }
-    console.log('Success:', result);
+
+    if (result.message === 'Credits shared successfully') {
+      console.log(`Credits shared successfully\nYou have been sponsored by '${result.poolName}'\nSponsor Info: ${result.sponsorInfo}`);
+    } else {
+      console.error(`ERROR: ${result.message}${result.error ? `: ${result.error}` : ''}`);
+      process.exit(7);
+    }
   } catch (error) {
-    console.error(`ERROR: Failed to send request to server: ${error.message}`);
-    process.exit(7);
+    console.error(`ERROR: Failed to communicate with server: ${error.message}`);
+    process.exit(6);
   }
 }
 
 main().catch(error => {
-  console.error('ERROR:', error);
+  console.error(`ERROR: ${error.message}`);
   process.exit(1);
 });
