@@ -1,6 +1,6 @@
 {
   "name": "nitya.connect",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Client-side tools for users request Turbo credits from sponsor pools",
   "main": "index.js",
   "bin": {

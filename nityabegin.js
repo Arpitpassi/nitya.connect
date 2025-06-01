@@ -176,11 +176,6 @@ function displayTermsAndGetConsent() {
   });
 }
 
-// Usage in your main() function - ONLY during wallet generation:
-// Place this ONLY in the wallet generation section (when projectName is provided)
-// After: console.log(`Wallet Address: ${walletAddress}`);
-// And BEFORE the end of the wallet generation try block:
-await displayTermsAndGetConsent();
 
 // Alternative: One-time terms file to avoid showing every time
 function checkTermsAcceptance() {
