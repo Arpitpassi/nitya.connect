@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 import Arweave from 'arweave';
+import readline from 'readline';
 
 const arweave = Arweave.init({
   host: 'arweave.net',
@@ -130,6 +131,63 @@ async function main() {
     console.error(`ERROR: Failed to generate wallet: ${error.message}`);
     process.exit(7);
   }
+}
+
+// Add this after wallet generation success in nityabegin.js
+
+function displayTermsAndGetConsent() {
+  console.log('\n' + '='.repeat(60));
+  console.log('🔒 NITYA.CONNECT TERMS OF SERVICE');
+  console.log('='.repeat(60));
+  console.log('By using this service, you agree to:');
+  console.log('• Secure your wallet files and private keys');
+  console.log('• Use sponsor credits for legitimate development only');
+  console.log('• Accept that wallets stay local, signatures are transmitted');
+  console.log('• Understand that lost keys cannot be recovered');
+  console.log('• Comply with Arweave network policies');
+  console.log('');
+  console.log('Full terms: \u001b[34m\u001b[4mhttps://nitya.protocol/terms\u001b[0m');
+  console.log('License: GNU AGPL v3.0');
+  console.log('='.repeat(60));
+  
+  // Simple consent mechanism
+  const readline = require('readline');
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
+  
+  return new Promise((resolve) => {
+    rl.question('Do you accept these terms? (y/N): ', (answer) => {
+      rl.close();
+      if (answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes') {
+        console.log('✅ Terms accepted. Proceeding...\n');
+        resolve(true);
+      } else {
+        console.log('❌ Terms not accepted. Exiting...');
+        process.exit(1);
+      }
+    });
+  });
+}
+
+// Usage in your main() function after wallet generation:
+// After: console.log(`Wallet Address: ${walletAddress}`);
+// Add:
+await displayTermsAndGetConsent();
+
+// Alternative: One-time terms file to avoid showing every time
+function checkTermsAcceptance() {
+  const termsFile = path.join(os.homedir(), '.permaweb', '.terms-accepted');
+  if (fs.existsSync(termsFile)) {
+    return true; // Already accepted
+  }
+  
+  // Show terms and get consent (use displayTermsAndGetConsent function)
+  // Then create the acceptance file:
+  fs.writeFileSync(termsFile, new Date().toISOString());
+  return true;
+
 }
 
 main();
