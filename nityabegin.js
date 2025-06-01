@@ -127,11 +127,15 @@ async function main() {
     fs.writeFileSync(walletPath, JSON.stringify(wallet, null, 2));
     console.log(`Wallet saved to ${walletPath}`);
     console.log(`Wallet Address: ${walletAddress}`);
+    await displayTermsAndGetConsent();
   } catch (error) {
     console.error(`ERROR: Failed to generate wallet: ${error.message}`);
     process.exit(7);
   }
 }
+
+// Add this import at the top with your other imports
+
 
 // Add this after wallet generation success in nityabegin.js
 
@@ -146,11 +150,12 @@ function displayTermsAndGetConsent() {
   console.log('• Understand that lost keys cannot be recovered');
   console.log('• Comply with Arweave network policies');
   console.log('');
-  console.log('Full terms: \u001b[34m\u001b[4mhttps://terms_enginesoup.ar.io\u001b[0m');
+  console.log('Full terms: \u001b[34m\u001b[4mhttps://nitya.protocol/terms\u001b[0m');
   console.log('License: GNU AGPL v3.0');
   console.log('='.repeat(60));
   
   // Simple consent mechanism
+  const readline = require('readline');
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -170,9 +175,10 @@ function displayTermsAndGetConsent() {
   });
 }
 
-// Usage in your main() function after wallet generation:
+// Usage in your main() function - ONLY during wallet generation:
+// Place this ONLY in the wallet generation section (when projectName is provided)
 // After: console.log(`Wallet Address: ${walletAddress}`);
-// Add:
+// And BEFORE the end of the wallet generation try block:
 await displayTermsAndGetConsent();
 
 // Alternative: One-time terms file to avoid showing every time
@@ -186,7 +192,5 @@ function checkTermsAcceptance() {
   // Then create the acceptance file:
   fs.writeFileSync(termsFile, new Date().toISOString());
   return true;
-
 }
-
 main();
