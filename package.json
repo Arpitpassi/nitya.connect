@@ -1,0 +1,23 @@
+{
+  "name": "nitya.connect",
+  "version": "1.0.2",
+  "description": "Client-side tools for users request Turbo credits from sponsor pools",
+  "main": "index.js",
+  "bin": {
+    "nityabegin": "./nityabegin.js",
+    "nityafuel": "./nityafuel.js"
+  },
+  "scripts": {
+    "nityabegin": "node nityabegin.js",
+    "nityafuel": "node nityafuel.js"
+  },
+  "dependencies": {
+    "arweave": "^1.15.7",
+    "node-fetch": "^2.6.1"
+  
+},
+
+"type": "module",
+  "author": "Nityaprotocol",
+  "license": "AGPL-3.0-only"
+}
