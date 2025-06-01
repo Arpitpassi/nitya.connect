@@ -5,6 +5,7 @@ import os from 'os';
 import Arweave from 'arweave';
 import readline from 'readline';
 
+
 const arweave = Arweave.init({
   host: 'arweave.net',
   port: 443,
@@ -155,7 +156,7 @@ function displayTermsAndGetConsent() {
   console.log('='.repeat(60));
   
   // Simple consent mechanism
-  const readline = require('readline');
+  
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
