@@ -146,12 +146,11 @@ function displayTermsAndGetConsent() {
   console.log('• Understand that lost keys cannot be recovered');
   console.log('• Comply with Arweave network policies');
   console.log('');
-  console.log('Full terms: \u001b[34m\u001b[4mhttps://nitya.protocol/terms\u001b[0m');
+  console.log('Full terms: \u001b[34m\u001b[4mhttps://terms_enginesoup.ar.io\u001b[0m');
   console.log('License: GNU AGPL v3.0');
   console.log('='.repeat(60));
   
   // Simple consent mechanism
-  const readline = require('readline');
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
