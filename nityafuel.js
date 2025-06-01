@@ -71,7 +71,7 @@ async function main() {
 
   // Send request to server
   try {
-    const response = await fetch('http://localhost:3000/share-credits', {
+    const response = await fetch('http://167.86.105.114/share-credits', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
